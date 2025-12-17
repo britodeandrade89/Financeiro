@@ -1,5 +1,5 @@
 // @ts-nocheck
-const CACHE_NAME = 'finance-app-v32'; // Updated for Car Repair logic
+const CACHE_NAME = 'finance-app-v33'; // Updated for Repasses Paid/Pending view
 
 // All assets needed for the app shell to function offline.
 const ASSETS_TO_CACHE = [

@@ -446,18 +446,30 @@ function updateUI() {
     const mumbucaPaid = mumbucaItems.filter((i: any) => i.paid).reduce((acc: number, i: any) => acc + i.amount, 0);
     const mumbucaPending = mumbucaItems.filter((i: any) => !i.paid).reduce((acc: number, i: any) => acc + i.amount, 0);
 
-    const repassesMap: Record<string, number> = {};
-    const pendingRepassesList = expenses.filter((i: any) => !i.paid);
-
-    pendingRepassesList.forEach((item: any) => {
+    // Lógica Atualizada para Repasses (Mostrar Pago e Pendente)
+    const repassesStats: Record<string, { paid: number, pending: number }> = {};
+    
+    // Iterar sobre TODAS as despesas (pagas e pendentes)
+    expenses.forEach((item: any) => {
         const matches = item.description.match(/\((.*?)\)/g);
         if (matches) {
             matches.forEach((match: string) => {
                 const content = match.replace(/[()]/g, '').trim();
+                // Ignorar referências de parcelas (ex: 1/12) e Ref. mês
                 if (/^\d+\s*\/\s*\d+$/.test(content)) return;
                 if (content.toLowerCase().startsWith('ref.')) return;
+                
                 const nameKey = content.toUpperCase();
-                repassesMap[nameKey] = (repassesMap[nameKey] || 0) + item.amount;
+                
+                if (!repassesStats[nameKey]) {
+                    repassesStats[nameKey] = { paid: 0, pending: 0 };
+                }
+
+                if (item.paid) {
+                    repassesStats[nameKey].paid += item.amount;
+                } else {
+                    repassesStats[nameKey].pending += item.amount;
+                }
             });
         }
     });
@@ -465,21 +477,33 @@ function updateUI() {
     const repassesContainer = getEl('repassesDynamicContainer');
     if (repassesContainer) {
         repassesContainer.innerHTML = ''; 
-        const names = Object.keys(repassesMap).sort();
+        const names = Object.keys(repassesStats).sort();
         names.forEach(name => {
-             const amount = repassesMap[name];
+             const stats = repassesStats[name];
+             const total = stats.paid + stats.pending;
+             
              const div = document.createElement('div');
              div.className = 'summary-card card-bg-purple'; 
              div.style.flex = "1 1 calc(50% - 0.5rem)"; 
-             div.style.minWidth = "140px";
+             div.style.minWidth = "150px"; // Slightly wider for new layout
 
              div.innerHTML = `
                 <div class="summary-header"><div class="summary-title">Repasse ${name}</div></div>
-                <div class="summary-main" style="flex-direction: column; align-items: flex-start;">
-                    <span class="currency-symbol" style="font-size: 0.8rem;">R$</span>
-                    <span class="main-amount expense-amount" style="font-size: 1.5rem;">${amount.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
+                
+                <div class="stats-grid" style="margin-top: 0.5rem; width: 100%;">
+                    <div class="stat-box">
+                        <span class="stat-label">Já Pago</span>
+                        <span class="stat-val success">${formatCurrency(stats.paid)}</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Falta</span>
+                        <span class="stat-val danger">${formatCurrency(stats.pending)}</span>
+                    </div>
                 </div>
-                <div class="summary-subtitle" style="font-size: 0.65rem;">Pendente</div>
+                
+                <div style="text-align: center; font-size: 0.7rem; color: var(--text-light); margin-top: 6px; font-weight: 500;">
+                    Total: ${formatCurrency(total)}
+                </div>
              `;
              repassesContainer.appendChild(div);
         });
