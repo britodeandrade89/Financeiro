@@ -459,7 +459,10 @@ function updateUI() {
                 if (/^\d+\s*\/\s*\d+$/.test(content)) return;
                 if (content.toLowerCase().startsWith('ref.')) return;
                 
-                const nameKey = content.toUpperCase();
+                let nameKey = content.toUpperCase();
+                
+                // CORREÇÃO SOLICITADA: Normalizar Marcia Brito
+                if (nameKey === 'MARCIA BRITO') nameKey = 'MÁRCIA BRITO';
                 
                 if (!repassesStats[nameKey]) {
                     repassesStats[nameKey] = { paid: 0, pending: 0 };
