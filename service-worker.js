@@ -1,5 +1,5 @@
 // @ts-nocheck
-const CACHE_NAME = 'finance-app-v29'; // Updated for Scrollbar Removal
+const CACHE_NAME = 'finance-app-v30'; // Updated for Compact Header
 
 // All assets needed for the app shell to function offline.
 const ASSETS_TO_CACHE = [
