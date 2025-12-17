@@ -179,10 +179,10 @@ async function createNewMonthData() {
         { description: "CONTA DA CLARO", amount: 55.00, category: "Moradia", day: 5 },
         { description: "CONTA DA VIVO - ANDRÉ", amount: 35.00, category: "Moradia", day: 5 },
         { description: "PSICÓLOGA DA MARCELLY", amount: 280.00, category: "Saúde", day: 10 }, 
-        { description: "INTERMÉDICA DO ANDRÉ (MÁRCIA BRITO)", amount: 123.00, category: "Saúde", day: 15 },
+        { description: "INTERMÉDICA DO ANDRÉ (MARCIA BRITO)", amount: 123.00, category: "Saúde", day: 15 },
         { description: "INTERNET DE CASA", amount: 125.00, category: "Moradia", day: 18, initialPaid: true },
         { description: "CIDADANIA PORTUGUESA (REBECCA BRITO)", amount: 140.00, category: "Dívidas", day: 20, initialPaid: true },
-        { description: "APPAI DO ANDRÉ (MÁRCIA BRITO)", amount: 123.55, category: "Saúde", day: 20 },
+        { description: "APPAI DO ANDRÉ (MARCIA BRITO)", amount: 123.55, category: "Saúde", day: 20 },
         { description: "SEGURO DO CARRO (SEPARAR NO SOFISA)", amount: 143.00, category: "Transporte", day: 20 },
         // MÁRCIA BISPO: Alterado para false para aparecer nos repasses pendentes
         { description: "APPAI DA MARCELLY (MÁRCIA BISPO)", amount: 110.00, category: "Saúde", day: 23, initialPaid: false }, 
@@ -192,13 +192,13 @@ async function createNewMonthData() {
     ];
 
     const variableExpensesFinite = [
-        { description: "FACULDADE DA MARCELLY (MÁRCIA BRITO)", amount: 202.68, category: "Educação", day: 12, totalInstallments: 10 },
-        { description: "RENEGOCIAR CARREFOUR (MÁRCIA BRITO)", amount: 312.50, category: "Dívidas", day: 28, totalInstallments: 12 },
+        { description: "FACULDADE DA MARCELLY (MARCIA BRITO)", amount: 202.68, category: "Educação", day: 12, totalInstallments: 10 },
+        { description: "RENEGOCIAR CARREFOUR (MARCIA BRITO)", amount: 312.50, category: "Dívidas", day: 28, totalInstallments: 12 },
         { description: "MULTAS (MARCIA BRITO)", amount: 260.00, category: "Transporte", day: 30, totalInstallments: 4 }, 
         { description: "PASSAGENS AÉREAS (LILI)", amount: 504.87, category: "Lazer", day: 15, totalInstallments: 6 },
         { description: "EMPRÉSTIMO TIA CÉLIA", amount: 100.00, category: "Dívidas", day: 10, totalInstallments: 10 },
         // NOVO ITEM: Conserto do Carro (Outubro)
-        { description: "CONSERTO DO CARRO E PEÇAS (OUTUBRO)", amount: 361.75, category: "Transporte", day: 10, totalInstallments: 4 }
+        { description: "CONSERTO DO CARRO E PEÇAS (OUTUBRO) (MARCIA BRITO)", amount: 361.75, category: "Transporte", day: 10, totalInstallments: 4 }
     ];
 
     const remediosAmount = (currentMonth % 2 !== 0) ? 500.00 : 0.00;
@@ -461,8 +461,8 @@ function updateUI() {
                 
                 let nameKey = content.toUpperCase();
                 
-                // CORREÇÃO SOLICITADA: Normalizar Marcia Brito
-                if (nameKey === 'MARCIA BRITO') nameKey = 'MÁRCIA BRITO';
+                // CORREÇÃO: Normalizar MÁRCIA para MARCIA para agrupar corretamente
+                if (nameKey === 'MÁRCIA BRITO') nameKey = 'MARCIA BRITO';
                 
                 if (!repassesStats[nameKey]) {
                     repassesStats[nameKey] = { paid: 0, pending: 0 };

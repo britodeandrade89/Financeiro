@@ -1,5 +1,5 @@
 // @ts-nocheck
-const CACHE_NAME = 'finance-app-v35'; // Updated for Marcia Brito Normalization
+const CACHE_NAME = 'finance-app-v36'; // Updated for Name Normalization
 
 // All assets needed for the app shell to function offline.
 const ASSETS_TO_CACHE = [
