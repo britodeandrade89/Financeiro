@@ -197,8 +197,8 @@ async function createNewMonthData() {
         { description: "MULTAS (MARCIA BRITO)", amount: 260.00, category: "Transporte", day: 30, totalInstallments: 4 }, 
         { description: "PASSAGENS AÉREAS (LILI)", amount: 504.87, category: "Lazer", day: 15, totalInstallments: 6 },
         { description: "EMPRÉSTIMO TIA CÉLIA", amount: 100.00, category: "Dívidas", day: 10, totalInstallments: 10 },
-        // NOVO ITEM: Conserto do Carro
-        { description: "CONSERTO DO CARRO E PEÇAS", amount: 361.75, category: "Transporte", day: 10, totalInstallments: 4 }
+        // NOVO ITEM: Conserto do Carro (Outubro)
+        { description: "CONSERTO DO CARRO E PEÇAS (OUTUBRO)", amount: 361.75, category: "Transporte", day: 10, totalInstallments: 4 }
     ];
 
     const remediosAmount = (currentMonth % 2 !== 0) ? 500.00 : 0.00;
@@ -275,18 +275,15 @@ async function createNewMonthData() {
             }
 
             // Lógica Específica para Conserto do Carro:
-            // Referência: Em Outubro (10) a parcela é 2/4.
+            // Ajuste solicitado: Este mês é a parcela 2/4.
             if (def.description.includes("CONSERTO DO CARRO")) {
-                const refMonth = 10;
-                const refInst = 2;
-                // Calcula a diferença de meses (assumindo mesmo ano para simplificação do contexto atual)
-                const diff = currentMonth - refMonth;
-                startInstallment = refInst + diff;
-                
-                // Só adiciona se a parcela estiver entre 1 e o total (4)
-                if (startInstallment < 1 || startInstallment > def.totalInstallments) {
-                    shouldAdd = false;
-                }
+                startInstallment = 2;
+            }
+
+            // Lógica Específica para Renegociar Carrefour:
+            // Ajuste: Iniciar na parcela 2 neste mês.
+            if (def.description.includes("RENEGOCIAR CARREFOUR")) {
+                startInstallment = 2;
             }
 
             if (shouldAdd) {

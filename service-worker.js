@@ -1,5 +1,5 @@
 // @ts-nocheck
-const CACHE_NAME = 'finance-app-v30'; // Updated for Compact Header
+const CACHE_NAME = 'finance-app-v32'; // Updated for Car Repair logic
 
 // All assets needed for the app shell to function offline.
 const ASSETS_TO_CACHE = [
