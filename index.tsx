@@ -1,3 +1,4 @@
+
 import { GoogleGenAI } from "@google/genai";
 import { doc, getDoc, setDoc, onSnapshot } from "firebase/firestore";
 import { onAuthStateChanged, signInAnonymously } from "firebase/auth";
@@ -15,7 +16,8 @@ let unsubscribeSnapshot: any = null;
 let unsubscribeProfile: any = null;
 let syncStatus: 'offline' | 'syncing' | 'online' = 'offline';
 
-const FAMILY_ID = 'gen-lang-client-0669556100';
+// Atualizado para usar o novo Project ID como base para os dados da família
+const FAMILY_ID = 'chaveunica-225e0-default';
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 const PAYMENT_SCHEDULE: Record<number, string> = {
@@ -350,7 +352,14 @@ async function init() {
     if (isConfigured) {
         onAuthStateChanged(auth, (user) => {
             if (user) { currentUser = user; isOfflineMode = false; setupRealtimeListener(); }
-            else { signInAnonymously(auth); }
+            else { 
+                // Tenta entrar anonimamente para sincronizar. 
+                // Lembre-se de ativar "Anonymous Login" no console do Firebase!
+                signInAnonymously(auth).catch(err => {
+                    console.error("Erro ao autenticar anonimamente:", err);
+                    isOfflineMode = true;
+                });
+            }
         });
     }
 }
