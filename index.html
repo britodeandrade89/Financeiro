@@ -61,11 +61,14 @@
                 <div class="header-right-col">
                     <div id="currentDateDisplay" class="date-top-right">...</div>
                     <div class="header-mini-actions">
+                        <div id="syncStatusIndicator" class="sync-indicator offline" title="Status de Sincronização">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19A3.5 3.5 0 0 0 21 15.5c0-1.87-1.46-3.41-3.32-3.49A5.5 5.5 0 0 0 12 7a5.48 5.48 0 0 0-4.68 2.61A3.5 3.5 0 0 0 4 13.5C4 15.43 5.57 17 7.5 17h10"></path></svg>
+                        </div>
                         <button id="import-btn-header" class="icon-btn" title="Importar Extrato/Print">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                         </button>
-                        <button id="open-ai-btn-header" class="icon-btn ai-btn" title="Atualizar">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                        <button id="open-ai-btn-header" class="icon-btn ai-btn" title="IA Financeira">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
                         </button>
                     </div>
                 </div>
@@ -109,12 +112,11 @@
                     <div style="padding: 1.5rem;"><button id="add-account-btn" class="btn btn-secondary" style="width: 100%; justify-content: center;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>Adicionar Conta</button></div>
                 </div>
                 <div class="section">
-                    <div class="section-header"><h2 class="section-title">Sincronização na Nuvem</h2></div>
+                    <div class="section-header"><h2 class="section-title">Nuvem & Backup</h2></div>
                     <div class="sync-config-section">
-                        <p><strong>Status:</strong> <span id="sync-status-text"></span></p>
-                        <div id="user-id-container" style="display: none;"><p><strong>ID do Usuário:</strong> <code id="user-id-text"></code></p></div>
-                        <p id="sync-status-info"></p>
-                        <button id="sync-btn" class="sync-btn-sidebar" title="Sincronizar Agora">Sincronizar Agora</button>
+                        <p><strong>Status:</strong> <span id="sync-status-text">Conectando...</span></p>
+                        <p id="sync-status-info" style="font-size: 0.8rem; color: var(--text-light); margin-bottom: 1rem;">O backup é automático e ocorre a cada mudança.</p>
+                        <button id="sync-btn" class="sync-btn-sidebar">Forçar Sincronização</button>
                     </div>
                 </div>
             </div>
@@ -125,7 +127,6 @@
             <div id="view-home" class="app-view active">
                 <div class="info-cards-grid">
                     <!-- SEÇÃO 1: SALÁRIO E DESPESAS GERAIS -->
-                    <!-- 1. Entrada de Salários -->
                     <div id="card-salary" class="summary-card card-bg-success">
                         <div class="summary-header"><div class="summary-title">Entrada de Salários</div></div>
                         <div class="summary-main">
@@ -143,11 +144,9 @@
                                  <span class="stat-label">A Receber</span>
                                  <span id="salaryPendingValue" class="stat-val warning">R$ 0,00</span>
                              </div>
-                             <span id="salaryTotalValue" style="display:none"></span> <!-- Hidden holder for logic compatibility -->
                         </div>
                     </div>
 
-                    <!-- 2. Despesas Fixas e Variáveis -->
                     <div id="card-expenses" class="summary-card card-bg-danger">
                         <div class="summary-header"><div class="summary-title">Despesas Fixas e Variáveis</div></div>
                         <div class="summary-main">
@@ -165,11 +164,9 @@
                                  <span class="stat-label">A Pagar</span>
                                  <span id="expensesPendingValue" class="stat-val danger">R$ 0,00</span>
                              </div>
-                             <span id="expensesTotalValue" style="display:none"></span>
                         </div>
                     </div>
 
-                    <!-- 3. Restante do Salário (BALANÇO - AZUL) -->
                     <div id="card-remainder" class="summary-card card-bg-blue-balance">
                         <div class="summary-header"><div class="summary-title">Balanço Salário</div></div>
                         <div class="summary-main">
@@ -180,11 +177,9 @@
                         <div class="summary-progress-bar"><div id="salaryRemainderProgressBar" class="summary-progress-bar-inner income"></div></div>
                     </div>
 
-                    <!-- SEPARADOR -->
                     <div class="card-separator"></div>
 
                     <!-- SEÇÃO 2: MUMBUCA -->
-                    <!-- 4. Entrada de Mumbuca -->
                     <div id="card-mumbuca-income" class="summary-card card-bg-success">
                         <div class="summary-header"><div class="summary-title">Entrada Mumbuca</div></div>
                         <div class="summary-main">
@@ -202,11 +197,9 @@
                                  <span class="stat-label">A Receber</span>
                                  <span id="mumbucaPendingValue" class="stat-val warning">R$ 0,00</span>
                              </div>
-                             <span id="mumbucaTotalValue" style="display:none"></span>
                         </div>
                     </div>
 
-                    <!-- 5. Gastos com Mumbuca -->
                     <div id="card-mumbuca-expenses" class="summary-card card-bg-danger">
                         <div class="summary-header"><div class="summary-title">Gastos com Mumbuca</div></div>
                         <div class="summary-main">
@@ -224,11 +217,9 @@
                                  <span class="stat-label">A Pagar</span>
                                  <span id="mumbucaExpensesPendingValue" class="stat-val danger">R$ 0,00</span>
                              </div>
-                             <span id="mumbucaExpensesTotalValue" style="display:none"></span>
                         </div>
                     </div>
 
-                    <!-- 6. Saldo de Mumbuca (BALANÇO - AZUL) -->
                     <div id="card-mumbuca-balance" class="summary-card card-bg-blue-balance">
                         <div class="summary-header"><div class="summary-title">Balanço Mumbuca</div></div>
                         <div class="summary-main">
@@ -239,10 +230,8 @@
                         <div class="summary-progress-bar"><div id="mumbucaBalanceProgressBar" class="summary-progress-bar-inner income"></div></div>
                     </div>
 
-                    <!-- SEPARADOR GERAL -->
                     <div class="general-separator"></div>
 
-                    <!-- SEÇÃO 3: RESUMO GERAL -->
                     <div id="card-general-income" class="summary-card card-bg-success">
                         <div class="summary-header"><div class="summary-title">Total Geral Entradas</div></div>
                         <div class="summary-main">
@@ -262,9 +251,7 @@
                     </div>
 
                     <!-- CARD REPASSES (DINÂMICO) -->
-                    <div id="repassesDynamicContainer" class="repasses-grid">
-                        <!-- Cards de Repasse gerados automaticamente aparecerão aqui -->
-                    </div>
+                    <div id="repassesDynamicContainer" class="repasses-grid"></div>
                 </div>
 
                 <div id="debtSummaryContainer"></div>
@@ -354,44 +341,14 @@
 
         </main>
 
-        <!-- Import Modal (Magic Paste) -->
+        <!-- Modals -->
         <div id="importModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title">Importar Dados Bancários</h2>
-                    <button class="action-btn close-modal-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    </button>
+                    <h2 class="modal-title">Importar Dados</h2>
+                    <button class="action-btn close-modal-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
                 </div>
-                <div class="segmented-control" style="margin-bottom: 1rem;">
-                    <button class="segmented-btn active" id="tab-import-text">📝 Colar Texto (Plano B)</button>
-                    <button class="segmented-btn" id="tab-import-image">📷 Ler Print</button>
-                </div>
-                
-                <!-- Text Import (Plan B) -->
-                <div id="import-text-panel">
-                    <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.5rem;">
-                        Copie o texto do PDF do extrato ou as notificações do banco e cole abaixo. A IA vai organizar tudo.
-                    </p>
-                    <textarea id="importText" class="form-input" rows="8" placeholder="Ex: 
-14/12 PIX Enviado - R$ 50,00
-15/12 Compra Uber - R$ 15,90
-..."></textarea>
-                </div>
-
-                <!-- Image Import -->
-                <div id="import-image-panel" style="display: none;">
-                    <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.5rem;">
-                        Se o app permitir, tire um print. Se não, tire foto da tela de outro celular.
-                    </p>
-                    <input type="file" id="importImageInput" accept="image/*" class="form-input">
-                </div>
-
-                <div id="import-loading" style="display: none; text-align: center; margin-top: 1rem;">
-                    <div class="loading-dots"><span></span><span></span><span></span></div>
-                    <p style="font-size: 0.8rem; color: var(--text-light);">A IA do Gemini está analisando...</p>
-                </div>
-
+                <textarea id="importText" class="form-input" rows="8" placeholder="Cole aqui seu extrato..."></textarea>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary close-modal-btn">Cancelar</button>
                     <button type="button" id="processImportBtn" class="btn">Processar</button>
@@ -399,73 +356,17 @@
             </div>
         </div>
 
-        <!-- MODALS (Existing) -->
-        <!-- Add Item Modal -->
         <div id="addModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 id="addModalTitle" class="modal-title">Adicionar Transação</h2>
-                    <button class="action-btn close-modal-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    </button>
+                    <h2 class="modal-title">Adicionar Transação</h2>
+                    <button class="action-btn close-modal-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
                 </div>
                 <form id="addForm">
-                    <div class="form-group">
-                        <label class="form-label" for="description">Descrição</label>
-                        <input type="text" id="description" name="description" class="form-input" required placeholder="Ex: Mercado, Aluguel">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="amount">Valor (R$)</label>
-                        <input type="text" id="amount" name="amount" class="form-input" required placeholder="0,00" inputmode="decimal">
-                    </div>
-
-                    <div id="typeGroup" class="form-group">
-                        <label class="form-label">Tipo de Despesa</label>
-                        <div style="display: flex; gap: 1rem;">
-                            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
-                                <input type="radio" name="type" value="fixed" checked> Fixa
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
-                                <input type="radio" name="type" value="variable"> Variável
-                            </label>
-                        </div>
-                    </div>
-
-                    <div id="categoryGroup" class="form-group">
-                        <label class="form-label" for="category">Categoria</label>
-                        <select id="category" name="category" class="form-select">
-                            <option value="">Selecione...</option>
-                        </select>
-                    </div>
-                    
-                    <div id="sourceAccountGroup" class="form-group">
-                        <label class="form-label" for="sourceAccount">Conta de Saída</label>
-                        <select id="sourceAccount" name="sourceAccount" class="form-select"></select>
-                    </div>
-
-                    <div id="installmentsGroup" class="form-group" style="display: none;">
-                        <label class="form-label">Parcelamento</label>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label" style="font-size: 0.75rem;">Parcela Atual</label>
-                                <input type="number" name="currentInstallment" class="form-input" value="1" min="1">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" style="font-size: 0.75rem;">Total Parcelas</label>
-                                <input type="number" name="totalInstallments" class="form-input" value="1" min="1">
-                            </div>
-                        </div>
-                        <div class="form-group-checkbox" style="margin-top: 0.5rem;">
-                            <input type="checkbox" id="cyclic" name="cyclic">
-                            <label for="cyclic" style="font-size: 0.85rem;">Despesa Recorrente (mensal)</label>
-                        </div>
-                    </div>
-
-                    <div id="dateGroup" class="form-group">
-                        <label id="transactionDateLabel" class="form-label" for="transactionDate">Data</label>
-                        <input type="date" id="transactionDate" name="transactionDate" class="form-input">
-                    </div>
-
+                    <div class="form-group"><label class="form-label" for="description">Descrição</label><input type="text" name="description" class="form-input" required></div>
+                    <div class="form-group"><label class="form-label" for="amount">Valor (R$)</label><input type="text" name="amount" class="form-input" required inputmode="decimal"></div>
+                    <div class="form-group"><label class="form-label" for="category">Categoria</label><select id="category" name="category" class="form-select"></select></div>
+                    <div class="form-group"><label class="form-label" for="sourceAccount">Conta</label><select id="sourceAccount" name="sourceAccount" class="form-select"></select></div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary close-modal-btn">Cancelar</button>
                         <button type="submit" class="btn">Salvar</button>
@@ -474,182 +375,58 @@
             </div>
         </div>
 
-        <!-- Edit Modal -->
         <div id="editModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 id="editModalTitle" class="modal-title">Editar Transação</h2>
-                    <button class="action-btn close-modal-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    </button>
+                    <h2 class="modal-title">Editar Item</h2>
+                    <button class="action-btn close-modal-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
                 </div>
                 <form id="editForm">
                     <input type="hidden" id="editItemId" name="itemId">
                     <input type="hidden" id="editItemType" name="itemType">
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="editDescription">Descrição</label>
-                        <input type="text" id="editDescription" name="description" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="editAmount">Valor (R$)</label>
-                        <input type="text" id="editAmount" name="amount" class="form-input" required inputmode="decimal">
-                    </div>
-                    
-                    <div id="editSourceAccountGroup" class="form-group">
-                        <label class="form-label" for="editSourceAccount">Conta de Saída</label>
-                        <select id="editSourceAccount" name="sourceAccount" class="form-select"></select>
-                    </div>
-
-                    <div id="editCategoryGroup" class="form-group">
-                        <label class="form-label" for="editCategory">Categoria</label>
-                        <select id="editCategory" name="category" class="form-select"></select>
-                    </div>
-
-                    <div id="editDueDateGroup" class="form-group">
-                        <label class="form-label" for="editDueDate">Vencimento/Data</label>
-                        <input type="date" id="editDueDate" name="dueDate" class="form-input">
-                    </div>
-                    
-                    <div id="editPaidDateGroup" class="form-group" style="display: none;">
-                        <label class="form-label" for="editPaidDate">Data do Pagamento</label>
-                        <input type="date" id="editPaidDate" name="paidDate" class="form-input">
-                    </div>
-
-                    <div id="editInstallmentsGroup" class="form-group" style="display: none;">
-                         <label class="form-label">Parcelamento</label>
-                         <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label" style="font-size: 0.75rem;">Atual</label>
-                                <input type="number" id="editCurrentInstallment" name="currentInstallment" class="form-input" min="1">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" style="font-size: 0.75rem;">Total</label>
-                                <input type="number" id="editTotalInstallments" name="totalInstallments" class="form-input" min="1">
-                            </div>
-                         </div>
-                         <p id="editInstallmentsInfo" style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.25rem;">Editando uma parcela de uma série.</p>
-                    </div>
-
-                    <div class="modal-footer" style="justify-content: space-between;">
+                    <div class="form-group"><label class="form-label" for="editDescription">Descrição</label><input type="text" id="editDescription" name="description" class="form-input" required></div>
+                    <div class="form-group"><label class="form-label" for="editAmount">Valor (R$)</label><input type="text" id="editAmount" name="amount" class="form-input" required inputmode="decimal"></div>
+                    <div class="form-group"><label class="form-label" for="editCategory">Categoria</label><select id="editCategory" name="category" class="form-select"></select></div>
+                    <div class="form-group"><label class="form-label" for="editSourceAccount">Conta</label><select id="editSourceAccount" name="sourceAccount" class="form-select"></select></div>
+                    <div class="modal-footer">
                         <button type="button" id="deleteItemBtn" class="btn btn-danger">Excluir</button>
-                        <div style="display: flex; gap: 1rem;">
-                            <button type="button" class="btn btn-secondary close-modal-btn">Cancelar</button>
-                            <button type="submit" class="btn">Salvar</button>
-                        </div>
+                        <button type="submit" class="btn">Salvar</button>
                     </div>
                 </form>
             </div>
         </div>
 
-        <!-- AI Modal -->
         <div id="aiModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 id="aiModalTitle" class="modal-title">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12c0-1.2-.6-2.4-1.7-3A3.6 3.6 0 0 0 15 8.3c-1.1.5-2 1.4-2 2.7s.9 2.2 2 2.7c.4.1.8.2 1.3.3 1.1.6 2.3 0-3.1-1 .2-.3.3-.6-.3-1z"></path></svg>
-                        Análise Inteligente
-                    </h2>
-                    <button class="action-btn close-modal-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    </button>
+                    <h2 class="modal-title">IA Financeira</h2>
+                    <button class="action-btn close-modal-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
                 </div>
-                <div id="aiAnalysis">
-                    <!-- Chat messages will appear here -->
-                </div>
+                <div id="aiAnalysis"></div>
                 <div class="ai-footer">
                     <form id="aiChatForm">
-                        <input type="text" id="aiChatInput" class="form-input" placeholder="Pergunte sobre suas finanças..." autocomplete="off">
-                        <button type="submit" class="btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                        </button>
+                        <input type="text" id="aiChatInput" class="form-input" placeholder="Pergunte sobre suas finanças...">
+                        <button type="submit" class="btn">Enviar</button>
                     </form>
                 </div>
             </div>
         </div>
-        
-        <!-- Goal Modal -->
+
         <div id="goalModal" class="modal">
              <div class="modal-content">
                  <div class="modal-header">
-                     <h2 id="goalModalTitle" class="modal-title">Nova Meta de Gastos</h2>
+                     <h2 class="modal-title">Meta de Gastos</h2>
                      <button class="action-btn close-modal-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
                  </div>
                  <form id="goalForm">
                      <input type="hidden" id="goalId" name="goalId">
-                     <div class="form-group">
-                         <label class="form-label" for="goalCategory">Categoria</label>
-                         <select id="goalCategory" name="goalCategory" class="form-select" required></select>
-                     </div>
-                     <div class="form-group">
-                         <label class="form-label" for="goalAmount">Limite Mensal (R$)</label>
-                         <input type="text" id="goalAmount" name="goalAmount" class="form-input" required inputmode="decimal">
-                     </div>
-                     <div class="modal-footer">
-                         <button type="button" class="btn btn-secondary close-modal-btn">Cancelar</button>
-                         <button type="submit" class="btn">Salvar Meta</button>
-                     </div>
+                     <div class="form-group"><label class="form-label" for="goalCategory">Categoria</label><select id="goalCategory" name="category" class="form-select" required></select></div>
+                     <div class="form-group"><label class="form-label" for="goalAmount">Limite Mensal (R$)</label><input type="text" id="goalAmount" name="goalAmount" class="form-input" required inputmode="decimal"></div>
+                     <div class="modal-footer"><button type="submit" class="btn">Salvar Meta</button></div>
                  </form>
              </div>
         </div>
 
-        <!-- Account Modal -->
-        <div id="accountModal" class="modal">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <h2 id="accountModalTitle" class="modal-title">Conta Bancária</h2>
-                     <button class="action-btn close-modal-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-                 </div>
-                 <form id="accountForm">
-                     <input type="hidden" id="accountId" name="accountId">
-                     <div class="form-group">
-                         <label class="form-label" for="accountName">Nome da Conta</label>
-                         <input type="text" id="accountName" name="accountName" class="form-input" required placeholder="Ex: Nubank, Carteira">
-                     </div>
-                     <div class="form-group">
-                         <label class="form-label" for="accountBalance">Saldo Inicial (R$)</label>
-                         <input type="text" id="accountBalance" name="accountBalance" class="form-input" required inputmode="decimal">
-                     </div>
-                     <div class="modal-footer">
-                         <button type="button" class="btn btn-secondary close-modal-btn">Cancelar</button>
-                         <button type="submit" class="btn">Salvar</button>
-                     </div>
-                 </form>
-             </div>
-        </div>
-
-        <!-- Savings Goal Modal -->
-        <div id="savingsGoalModal" class="modal">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <h2 id="savingsGoalModalTitle" class="modal-title">Meta de Poupança</h2>
-                     <button class="action-btn close-modal-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-                 </div>
-                 <form id="savingsGoalForm">
-                     <input type="hidden" id="savingsGoalId" name="savingsGoalId">
-                     <div class="form-group">
-                         <label class="form-label" for="savingsGoalDescription">Objetivo</label>
-                         <input type="text" id="savingsGoalDescription" name="savingsGoalDescription" class="form-input" required placeholder="Ex: Viagem 2025">
-                     </div>
-                     <div class="form-row">
-                         <div class="form-group">
-                             <label class="form-label" for="savingsGoalCurrent">Guardado (R$)</label>
-                             <input type="text" id="savingsGoalCurrent" name="savingsGoalCurrent" class="form-input" required inputmode="decimal">
-                         </div>
-                         <div class="form-group">
-                             <label class="form-label" for="savingsGoalTarget">Meta (R$)</label>
-                             <input type="text" id="savingsGoalTarget" name="savingsGoalTarget" class="form-input" required inputmode="decimal">
-                         </div>
-                     </div>
-                     <div class="modal-footer">
-                         <button type="button" class="btn btn-secondary close-modal-btn">Cancelar</button>
-                         <button type="submit" class="btn">Salvar</button>
-                     </div>
-                 </form>
-             </div>
-        </div>
-
-        <!-- TAB BAR -->
         <nav id="tab-bar">
             <button class="tab-btn active" data-view="home">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
