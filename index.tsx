@@ -115,6 +115,12 @@ async function createNewMonthData() {
         { desc: "FACULDADE DA MARCELLY (MARCIA BRITO)", totalAmount: 2026.80, cat: "Educação", day: 12, installments: 10, sY: 2025, sM: 11, janPaid: true },
         { desc: "PASSAGENS AÉREAS (LILI)", totalAmount: 4038.96, cat: "Lazer", day: 15, installments: 8, sY: 2025, sM: 12, janPaid: true },
         { desc: "PASSAGEM AÉREA (MARCIA BRITO)", totalAmount: 1560.00, cat: "Lazer", day: 15, installments: 5, sY: 2026, sM: 2, janPaid: false },
+        { desc: "PASSAGENS ONIBUS RIO X SP (MARCIA BRITO)", totalAmount: 438.00, cat: "Transporte", day: 15, installments: 5, sY: 2026, sM: 2, janPaid: false },
+        { desc: "MALA DO ANDRÉ (MARCIA BRITO)", totalAmount: 179.00, cat: "Lazer", day: 15, installments: 3, sY: 2026, sM: 2, janPaid: false },
+        { desc: "ESTADIA SÃO PAULO - IDA (LILI)", totalAmount: 289.44, cat: "Lazer", day: 15, installments: 4, sY: 2026, sM: 2, janPaid: false },
+        { desc: "ESTADIA SÃO PAULO - VOLTA (LILI)", totalAmount: 358.20, cat: "Lazer", day: 15, installments: 4, sY: 2026, sM: 2, janPaid: false },
+        { desc: "ESTADIA CIDADE DO CABO (LILI)", totalAmount: 1888.25, cat: "Lazer", day: 15, installments: 5, sY: 2026, sM: 2, janPaid: false },
+        { desc: "ESTADIA JOHANESBURGO (LILI)", totalAmount: 1363.93, cat: "Lazer", day: 15, installments: 5, sY: 2026, sM: 2, janPaid: false },
         { desc: "RENEGOCIAR CARREFOUR (MARCIA BRITO)", totalAmount: 5000.00, cat: "Dívidas", day: 28, installments: 16, sY: 2025, sM: 11, janPaid: false },
         { desc: "MULTAS (MARCIA BRITO)", totalAmount: 1040.00, cat: "Transporte", day: 30, installments: 4, sY: 2025, sM: 10, janPaid: false },
         { desc: "EMPRÉSTIMO TIA CÉLIA", totalAmount: 1000.00, cat: "Dívidas", day: 10, installments: 10, sY: 2025, sM: 4, janPaid: false }
